@@ -1,0 +1,31 @@
+{
+  "fill" : {
+    "automatic-gradient" : "display-p3:0.47070,0.56885,0.87842,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "sohicon.png",
+          "name" : "sohicon"
+        },
+        {
+          "hidden" : true,
+          "image-name" : "Image Layer.png",
+          "name" : "Image Layer"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.6
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

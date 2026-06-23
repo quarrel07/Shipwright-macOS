@@ -441,13 +441,13 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                           "\x1b[2;2HYou've launched the Ship with an old ROM O2R file."
                           "\x1b[4;2HPlease regenerate a new ROM O2R and relaunch."
                           "\x1b[6;2HPress the Home button to exit...",
-                          "OK", "", [&]() { exit(1); });
+                          "OK", "", [&]() { _Exit(1); });
 #elif defined(__WIIU__)
     SohGui::RegisterPopup("Outdated ROM Archives",
                           "You've launched the Ship with an old a ROM O2R file.\n\n"
                           "Please generate a ROM O2R and relaunch.\n\n"
                           "Press and hold the Power button to shutdown...",
-                          "OK", "", [&]() { exit(1); });
+                          "OK", "", [&]() { _Exit(1); });
     OSFatal();
 #endif
 
@@ -455,7 +455,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
         SohGui::RegisterPopup("Extractor assets not found",
                               "No O2R files found. Missing 'assets/' folder needed to generate OTR file.\nPlease "
                               "re-extract them from the download or.\n\nExiting...",
-                              "OK", "", [&]() { exit(1); });
+                              "OK", "", [&]() { _Exit(1); });
     } else if (shouldRegen) {
         SohGui::RegisterPopup("Outdated ROM Archives",
                               "Your oot.o2r or oot-mq.o2r were created with incompatible versions of SoH.\nYou will "
@@ -501,7 +501,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
 #endif
                     std::string title =
                         !std::filesystem::exists(portArchivePath) ? "Missing soh.o2r" : "soh.o2r is outdated";
-                    SohGui::RegisterPopup(title, msg, "OK", "", [&]() { exit(1); });
+                    SohGui::RegisterPopup(title, msg, "OK", "", [&]() { _Exit(1); });
                 }
                 continue;
             }
@@ -524,7 +524,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                         if (IsSubpath(ownPath, tempPath)) {
                             SohGui::RegisterPopup("SoH Path Error",
                                                   "SoH is running in a temp folder.\nExtract the .zip and run again.",
-                                                  "OK", "", [&]() { exit(0); });
+                                                  "OK", "", [&]() { _Exit(0); });
                         } else {
                             windowsStep = WS_PERMS;
                         }
@@ -545,7 +545,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                                   "OK", "", [&]() {
                                                       fclose(tfile);
                                                       PathTestCleanup(tfile);
-                                                      exit(0);
+                                                      _Exit(0);
                                                   });
                         } else {
                             fclose(tfile);
@@ -553,7 +553,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                 SohGui::RegisterPopup("SoH Permissions Error",
                                                       "SoH does not have proper file permissions.\nPlease move it to a "
                                                       "folder that does and run again.",
-                                                      "OK", "", [&]() { exit(0); });
+                                                      "OK", "", [&]() { _Exit(0); });
                             }
                             windowsStep = WS_ONEDRIVE;
                         }
@@ -565,7 +565,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                                   "SoH appears to be in a OneDrive folder, which will cause issues.\n"
                                                   "Please move it to a folder outside of OneDrive, like the root of a\n"
                                                   "drive (e.g. \"C:\\Games\\SoH\").",
-                                                  "OK", "", [&]() { exit(0); });
+                                                  "OK", "", [&]() { _Exit(0); });
                         } else {
                             windowsStep = WS_DONE;
                             extractStep = args.empty() ? ES_EXTRACT : ES_EXTRACT_ARGS;
@@ -593,7 +593,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                 extractStep = ES_VERIFY;
                             }
                         },
-                        [&]() { exit(0); });
+                        [&]() { _Exit(0); });
                     break;
                 }
                 file = args.at(0);
@@ -639,7 +639,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                         if (!ootO2RExists) {
                             SohGui::RegisterPopup(
                                 "No O2R Files", "No O2R files found. Generate one now?", "Yes", "No",
-                                [&]() { promptStep = PS_LOCAL; }, [&]() { exit(0); });
+                                [&]() { promptStep = PS_LOCAL; }, [&]() { _Exit(0); });
                         } else {
                             extractStep = ES_VERIFY;
                         }
@@ -710,7 +710,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                 if (!ootO2RExists) {
                     SohGui::RegisterPopup("No ROM Archives",
                                           "No ROM O2R files detected. Please generate a ROM O2R and relaunch.", "OK",
-                                          "", [&]() { exit(0); });
+                                          "", [&]() { _Exit(0); });
                 }
                 extractDone = true;
                 continue;
@@ -721,7 +721,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
 
     render:
         if (!WindowIsRunning()) {
-            exit(0);
+            _Exit(0);
         }
         // Process window events for resize, mouse, keyboard events
         wnd->HandleEvents();
@@ -743,7 +743,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                 try {
                     extractionTask->get();
                 } catch (const std::exception& e) {
-                    SohGui::RegisterPopup("Extraction Crashed", e.what(), "Close", "", []() { exit(1); });
+                    SohGui::RegisterPopup("Extraction Crashed", e.what(), "Close", "", []() { _Exit(1); });
                 }
                 extractionTask.reset();
             } else {
@@ -961,7 +961,7 @@ void OTRGlobals::Initialize() {
                                      "Attempted to load an invalid OTR file. Try regenerating.", nullptr);
             SPDLOG_ERROR("Invalid OTR File!");
 #endif
-            exit(1);
+            _Exit(1);
         }
         switch (version) {
             case OOT_PAL_MQ:
@@ -1531,6 +1531,13 @@ bool VerifyArchiveVersion(OTRVersion version) {
 }
 
 extern "C" void InitOTR(int argc, char* argv[]) {
+#ifdef __APPLE__
+    // Default the writable data folder to ~/Library/Application Support/com.shipofharkinian.soh, which
+    // mirrors the SHIP_HOME value baked into the .app's Info.plist (LSEnvironment). overwrite=0 means the
+    // plist value wins when launched as a bundle; this fallback only kicks in when the raw binary is run
+    // directly (e.g. from the build dir) so it still lands in the right place instead of the cwd.
+    setenv("SHIP_HOME", "~/Library/Application Support/com.shipofharkinian.soh", 0);
+#endif
     OTRGlobals::Instance = new OTRGlobals();
     OTRGlobals::Instance->RunExtract(argc, argv);
 
@@ -1899,12 +1906,35 @@ std::map<std::string, SoundFontSample*> cachedCustomSFs;
 
 ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool isJapaneseFont) {
     auto mImGuiIo = &ImGui::GetIO();
+    // On a HiDPI/Retina display the ImGui overlay renders into a framebuffer scaled by the backing
+    // scale (e.g. 2x), but glyphs would be rasterized at the logical point size and then stretched up
+    // -> fuzzy menu text. Rasterize the atlas at a higher density via RasterizerDensity so text stays
+    // crisp. The atlas is baked once, but the Settings -> ImGui scale option changes FontGlobalScale at
+    // runtime (stretching the fixed atlas). To stay crisp at *every* scale option without rebuilding the
+    // atlas, bake at backingScale * maxUiScale: FontGlobalScale then only ever downsamples a high-res
+    // atlas (supersampling, still sharp) instead of upscaling a low-res one. On a standard-DPI display
+    // with the default 1.0 scale this collapses to 1.0, making it a no-op.
+    float dpiScale = 1.0f;
+    if (auto gui = Ship::Context::GetRawInstance()->GetWindow()->GetGui()) {
+        dpiScale = gui->GetDpiScale();
+    }
+    float maxUiScale = 1.0f;
+    for (float optionScale : imguiScaleOptionToValue) {
+        if (optionScale > maxUiScale) {
+            maxUiScale = optionScale;
+        }
+    }
+    // The Japanese font carries the full CJK glyph range; baking it at maxUiScale would 4x a huge atlas
+    // (slow build + tens of MB of VRAM) for a corner only hit by Japanese text at the largest UI scale.
+    // Cap it at the backing scale (crisp at the default scale) to keep that atlas a reasonable size.
+    float rasterDensity = dpiScale * (isJapaneseFont ? 1.0f : maxUiScale);
     ImFont* font;
     if (fontPath == "") {
         ImFontConfig fontCfg = ImFontConfig();
         fontCfg.OversampleH = fontCfg.OversampleV = 1;
         fontCfg.PixelSnapH = true;
         fontCfg.SizePixels = size;
+        fontCfg.RasterizerDensity = rasterDensity;
         font = mImGuiIo->Fonts->AddFontDefault(&fontCfg);
     } else {
         auto initData = std::make_shared<Ship::ResourceInitData>();
@@ -1916,6 +1946,7 @@ ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool is
             Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(fontPath, false, initData));
         ImFontConfig fontConf;
         fontConf.FontDataOwnedByAtlas = false;
+        fontConf.RasterizerDensity = rasterDensity;
         const ImWchar* glyph_ranges = isJapaneseFont ? mImGuiIo->Fonts->GetGlyphRangesJapanese() : nullptr;
         font = mImGuiIo->Fonts->AddFontFromMemoryTTF(fontData->Data, static_cast<int>(fontData->DataSize), size,
                                                      &fontConf, glyph_ranges);
@@ -1927,6 +1958,7 @@ ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool is
     iconsConfig.MergeMode = true;
     iconsConfig.PixelSnapH = true;
     iconsConfig.GlyphMinAdvanceX = iconFontSize;
+    iconsConfig.RasterizerDensity = rasterDensity;
     mImGuiIo->Fonts->AddFontFromMemoryCompressedBase85TTF(fontawesome_compressed_data_base85, iconFontSize,
                                                           &iconsConfig, sIconsRanges);
     return font;

@@ -411,3 +411,6 @@ ReleaseObj/*
 
 # Junk from App Bundle
 appsupport
+
+# macOS Liquid Glass app icon layers (must be tracked despite the *.png rule above)
+!macosx/sohicon.icon/Assets/*.png
