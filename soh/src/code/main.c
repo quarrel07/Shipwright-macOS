@@ -12,6 +12,10 @@
 #include <libultraship/bridge.h>
 #include "soh/CrashHandlerExt.h"
 
+#ifdef __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
 size_t gSystemHeapSize = 0;
@@ -58,6 +62,15 @@ int SDL_main(int argc, char* argv[]) {
 
 #else //_WIN32
 int main(int argc, char* argv[]) {
+#endif
+#ifdef __APPLE__
+    // Disable the macOS "press and hold" accent/diacritic popup for this app. SDL keeps a Cocoa text
+    // input context active, so holding a movement key (e.g. WASD) is interpreted as holding a letter
+    // key in a text field, and macOS shows the accent picker instead of repeating the key. This is the
+    // per-app equivalent of `defaults write -app <App> ApplePressAndHoldEnabled -bool false`; it keeps
+    // normal key repeat and only suppresses the accent popup. Done before any window/text-input context.
+    CFPreferencesSetAppValue(CFSTR("ApplePressAndHoldEnabled"), kCFBooleanFalse, kCFPreferencesCurrentApplication);
+    CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
 #endif
     GameConsole_Init();
     InitOTR(argc, argv);
