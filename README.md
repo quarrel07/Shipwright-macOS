@@ -1,3 +1,25 @@
+<!-- ===== macOS fork banner (this fork only) ===== -->
+> ## 🍎 macOS fork
+> This is a macOS-focused fork of Ship of Harkinian that produces a **self-contained, codesigned
+> `Ship of Harkinian.app`** from a plain build, with **crisp Retina/HiDPI menu text**, a **clean quit**
+> when you decline the first-run ROM prompt, a native **Liquid Glass app icon**, and the build fixes
+> needed for a current Apple-clang / CMake toolchain.
+> **→ [Download the prebuilt macOS app](https://github.com/quarrel07/Shipwright-macOS/releases/latest)** (Apple Silicon), or see
+> **[README-macOS.md](README-macOS.md)** for what's different and how to build it yourself.
+> Releases track upstream's version (`vX.Y.Z-macos` = the macOS build of upstream `vX.Y.Z`).
+> Everything below is from the upstream project. As with upstream, **no game assets are included** —
+> you supply your own ROM.
+
+<p align="center">
+  <img src="icons/preview/liquid-glass-macos26.png" width="168" alt="Liquid Glass app icon rendered on macOS 26">
+  &nbsp;&nbsp;&nbsp;
+  <img src="icons/preview/liquid-glass-macos27.png" width="168" alt="Liquid Glass app icon rendered on macOS 27">
+  <br>
+  <sub><b>New Liquid Glass app icon</b> &nbsp;—&nbsp; macOS 26 Tahoe (left) &nbsp;·&nbsp; macOS 27 Golden Gate (right)</sub>
+</p>
+
+---
+
 ![Ship of Harkinian](docs/shiptitle.darkmode.png#gh-dark-mode-only)
 ![Ship of Harkinian](docs/shiptitle.lightmode.png#gh-light-mode-only)
 
