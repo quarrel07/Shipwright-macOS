@@ -72,6 +72,11 @@ add_custom_command(TARGET soh POST_BUILD
     # soh/assets/yml/ -> Resources/assets/.
     COMMAND ${CMAKE_COMMAND} -E make_directory "${RES_DIR}/assets"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/soh/assets/yml" "${RES_DIR}/assets"
+    # Upstream's POST_BUILD (soh/CMakeLists.txt) also copies the extractor assets next to the binary
+    # for non-bundle runs, which lands them in Contents/MacOS/. In a bundle that copy is never read,
+    # and its loose files can only be codesigned via extended attributes, which release zips drop or
+    # mangle ("damaged" app). Remove it; this runs after upstream's copy (included later).
+    COMMAND ${CMAKE_COMMAND} -E rm -rf "$<TARGET_FILE_DIR:soh>/assets"
     COMMENT "Bundling Ship of Harkinian resources into the .app"
     VERBATIM
 )
