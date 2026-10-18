@@ -884,7 +884,7 @@ void OTRGlobals::Initialize() {
     // populated here rather than in Menu::InitElement (where the window backends are handled).
     SohGui::GetSohMenu()->UpdateAudioBackendObjects();
 
-    SPDLOG_INFO("Starting Ship of Harkinian version {} (Branch: {} | Commit: {})", (char*)gBuildVersion,
+    SPDLOG_INFO("Starting Ship of Harkinian version {} (Branch: {} | Commit: {})", (char*)gBuildVersionLabel,
                 (char*)gGitBranch, (char*)gGitCommitHash);
 
     auto loader = context->GetResourceManager()->GetResourceLoader();

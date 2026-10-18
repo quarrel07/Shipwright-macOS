@@ -43,6 +43,7 @@ No copyrighted assets are bundled. You must supply your own legally-dumped ROM.
 | 4 | **Clean quit** `OTRGlobals.cpp` | When you decline the first-run extractor prompt the app bailed via `exit()`, which ran a static `Context`/`spdlog` destructor during teardown and **segfaulted on a clean quit**. The pre-init bail-outs now use `_Exit()`, so declining quits silently. |
 | 5 | **Liquid Glass app icon** `soh/macosx/sohicon.icon` | A native [Icon Composer](https://developer.apple.com/documentation/Xcode/creating-your-app-icon-using-icon-composer) icon compiled with `actool` into `Assets.car` (+ an `.icns` fallback), so the Dock/Finder icon uses the real macOS 26+ Liquid Glass material instead of a flat PNG. |
 | 6 | **Metadata** `Info.plist.in` | `CFBundleIconName`/`CFBundleIconFile = sohicon`; mark the app HiDPI-capable; point the writable data folder at `~/Library/Application Support/com.shipofharkinian.soh` via `SHIP_HOME` (`LSEnvironment` in the bundle + a `setenv` fallback in `InitOTR` for the raw binary). |
+| 7 | **Build label** `soh/src/boot/build.c.in` | A `macOS fork` suffix is shown in **Settings → About**, the gameplay stats header, the startup log and crash logs, so a report from this build is identifiable against upstream's own macOS download. It is a separate display-only string: the version text that randomizer seeds, speedrun hashes and spoiler log checks compare is unchanged, so seeds and spoiler logs stay compatible with upstream builds. |
 
 ## File layout at runtime
 

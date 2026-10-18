@@ -442,7 +442,7 @@ void DrawGameplayStatsHeader() {
         GameplayStatsRow("Git Branch:", (char*)gGitBranch);
         GameplayStatsRow("Git Commit Hash:", (char*)gGitCommitHash);
     } else {
-        GameplayStatsRow("Build Version:", (char*)gBuildVersion);
+        GameplayStatsRow("Build Version:", (char*)gBuildVersionLabel);
     }
     if (gSaveContext.ship.stats.rtaTiming) {
         GameplayStatsRow("Total Time (RTA):", Ship_FormatTimeDisplay(static_cast<u32>(GAMEPLAYSTAT_TOTAL_TIME)),
