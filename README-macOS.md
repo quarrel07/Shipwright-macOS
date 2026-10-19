@@ -44,6 +44,7 @@ No copyrighted assets are bundled. You must supply your own legally-dumped ROM.
 | 5 | **Liquid Glass app icon** `soh/macosx/sohicon.icon` | A native [Icon Composer](https://developer.apple.com/documentation/Xcode/creating-your-app-icon-using-icon-composer) icon compiled with `actool` into `Assets.car` (+ an `.icns` fallback), so the Dock/Finder icon uses the real macOS 26+ Liquid Glass material instead of a flat PNG. |
 | 6 | **Metadata** `Info.plist.in` | `CFBundleIconName`/`CFBundleIconFile = sohicon`; mark the app HiDPI-capable; point the writable data folder at `~/Library/Application Support/com.shipofharkinian.soh` via `SHIP_HOME` (`LSEnvironment` in the bundle + a `setenv` fallback in `InitOTR` for the raw binary). |
 | 7 | **Build label** `soh/src/boot/build.c.in` | A `macOS fork` suffix is shown in **Settings → About**, the gameplay stats header, the startup log and crash logs, so a report from this build is identifiable against upstream's own macOS download. It is a separate display-only string: the version text that randomizer seeds, speedrun hashes and spoiler log checks compare is unchanged, so seeds and spoiler logs stay compatible with upstream builds. |
+| 8 | **Retina viewport** (`libultraship`) | On Retina displays the Metal window size was recorded in pixels at startup, so **Viewport dimensions** read double the real size, and the internal render size came out at half the true pixels, so 100% internal resolution looked soft and native needed 200%. The window size is now point-based like the rest of the window code, and the render size is scaled by the display backing scale, so **100% internal resolution means native pixels**. |
 
 ## File layout at runtime
 
@@ -73,7 +74,7 @@ dylib/SDL3 bundling for a local-only build that uses your Homebrew libraries dir
 
 | Submodule | Fork / branch | Change |
 |-----------|---------------|--------|
-| `libultraship` | [`quarrel07/libultraship@shipwright-libus`](https://github.com/quarrel07/libultraship/tree/shipwright-libus) | SDL2 framework build fix (#1) + HiDPI font density (#2) |
+| `libultraship` | [`quarrel07/libultraship@shipwright-libus`](https://github.com/quarrel07/libultraship/tree/shipwright-libus) | SDL2 framework build fix (#1) + HiDPI font density (#2) + Retina viewport (#8) |
 
 The fork branches from the exact commit upstream Shipwright pins, so this fork tracks upstream
 `9.3.1` with only the macOS-specific deltas above. `torch` is unchanged and still points at upstream.
