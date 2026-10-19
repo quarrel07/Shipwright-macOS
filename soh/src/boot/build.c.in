@@ -4,7 +4,7 @@ const char gBuildVersion[] = "@PROJECT_BUILD_NAME@ (@CMAKE_PROJECT_VERSION_MAJOR
 // macOS fork: display-only label for the About menu, stats header, startup log and crash log, so reports
 // from this build are identifiable against upstream's own macOS download. gBuildVersion stays unchanged
 // because randomizer seeds, speedrun hashes and spoiler log checks compare it.
-const char gBuildVersionLabel[] = "@PROJECT_BUILD_NAME@ (@CMAKE_PROJECT_VERSION_MAJOR@.@CMAKE_PROJECT_VERSION_MINOR@.@CMAKE_PROJECT_VERSION_PATCH@) macOS fork";
+const char gBuildVersionLabel[] = "@SOH_DISPLAY_BUILD_NAME@ (@SOH_DISPLAY_VERSION@) macOS fork";
 const u16 gBuildVersionMajor = @CMAKE_PROJECT_VERSION_MAJOR@;
 const u16 gBuildVersionMinor = @CMAKE_PROJECT_VERSION_MINOR@;
 const u16 gBuildVersionPatch = @CMAKE_PROJECT_VERSION_PATCH@;

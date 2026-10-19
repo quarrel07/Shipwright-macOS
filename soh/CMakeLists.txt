@@ -111,6 +111,18 @@ set(PROJECT_NAME soh)
 ################################################################################
 # Sources
 ################################################################################
+# macOS fork: release tags are named vX.Y.Z-macos after the upstream release they build. The display-only
+# label (gBuildVersionLabel, Info.plist) shows that version and its codename, so it stays right even when an
+# upstream tag declares an older project version (9.3.1 shipped declaring 9.3.0). gBuildVersion keeps the
+# declared version, because randomizer seeds and spoiler log checks compare it with upstream builds.
+set(SOH_DISPLAY_VERSION "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}.${CMAKE_PROJECT_VERSION_PATCH}")
+set(SOH_DISPLAY_BUILD_NAME "${PROJECT_BUILD_NAME}")
+list(LENGTH NATO_PHONETIC_ALPHABET SOH_NATO_COUNT)
+if(CMAKE_PROJECT_GIT_COMMIT_TAG MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)-macos$" AND CMAKE_MATCH_3 LESS SOH_NATO_COUNT)
+    set(SOH_DISPLAY_VERSION "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
+    list(GET NATO_PHONETIC_ALPHABET ${CMAKE_MATCH_3} SOH_DISPLAY_PATCH_WORD)
+    string(REPLACE "${PROJECT_PATCH_WORD}" "${SOH_DISPLAY_PATCH_WORD}" SOH_DISPLAY_BUILD_NAME "${PROJECT_BUILD_NAME}")
+endif()
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/src/boot/build.c.in ${CMAKE_CURRENT_SOURCE_DIR}/src/boot/build.c @ONLY)
 configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/properties.h.in ${CMAKE_CURRENT_SOURCE_DIR}/properties.h @ONLY)
 
