@@ -44,6 +44,7 @@ No copyrighted assets are bundled. You must supply your own legally-dumped ROM.
 | 6 | **Metadata** `Info.plist.in` | `CFBundleIconName`/`CFBundleIconFile = sohicon`; mark the app HiDPI-capable; point the writable data folder at `~/Library/Application Support/com.shipofharkinian.soh` via `SHIP_HOME` (`LSEnvironment` in the bundle + a `setenv` fallback in `InitOTR` for the raw binary). |
 | 7 | **Build label** `soh/src/boot/build.c.in` | A `macOS fork` suffix is shown in **Settings → About**, the gameplay stats header, the startup log and crash logs, so a report from this build is identifiable against upstream's own macOS download. Its version number and codename come from the fork's release tag (`v9.3.1-macos` → `Dewey Bravo (9.3.1) macOS fork`), because upstream's 9.3.1 tag still declares 9.3.0. It is a separate display-only string: the version text that randomizer seeds, speedrun hashes and spoiler log checks compare is unchanged, so seeds and spoiler logs stay compatible with upstream builds. |
 | 8 | **Retina viewport** (`libultraship`) | On Retina displays the Metal window size was recorded in pixels at startup, so **Viewport dimensions** read double the real size, and the internal render size came out at half the true pixels, so 100% internal resolution looked soft and native needed 200%. The window size is now point-based like the rest of the window code, and the render size is scaled by the display backing scale, so **100% internal resolution means native pixels**. |
+| 9 | **HDR upscaling** (`libultraship`, Settings → Graphics) | Opt-in **16-bit Color + HDR Output** draws the game and the window in 16-bit color instead of 8-bit, which smooths banding in dark scenes, fog and sky, and turns on macOS extended dynamic range (EDR). **Auto HDR** then converts the game's standard picture to HDR: darker colors stay as they are and the brightest ones glow brighter than normal white, up to what the display can show at that moment. Both are off by default and apply instantly. Auto HDR follows Filippo Tarpini's [PumboAutoHDR](https://github.com/Filoppi/PumboAutoHDR) and his AutoHDR shader for [Dolphin](https://github.com/dolphin-emu/dolphin). |
 
 ## File layout at runtime
 
@@ -73,7 +74,7 @@ dylib/SDL3 bundling for a local-only build that uses your Homebrew libraries dir
 
 | Submodule | Fork / branch | Change |
 |-----------|---------------|--------|
-| `libultraship` | [`quarrel07/libultraship@shipwright-libus`](https://github.com/quarrel07/libultraship/tree/shipwright-libus) | SDL2 framework build fix (#1) + HiDPI font density (#2) + Retina viewport (#8) |
+| `libultraship` | [`quarrel07/libultraship@shipwright-libus`](https://github.com/quarrel07/libultraship/tree/shipwright-libus) | SDL2 framework build fix (#1) + HiDPI font density (#2) + Retina viewport (#8) + HDR (#9) |
 
 The fork branches from the exact commit upstream Shipwright pins, so this fork tracks upstream
 `9.3.1` with only the macOS-specific deltas above. `torch` is unchanged and still points at upstream.
@@ -83,3 +84,5 @@ The fork branches from the exact commit upstream Shipwright pins, so this fork t
 All credit for Ship of Harkinian goes to the **[HarbourMasters](https://github.com/HarbourMasters)**
 team and contributors, and to **[Kenix3](https://github.com/Kenix3)** / the libultraship project.
 This fork only adds macOS build, packaging, and quality-of-life fixes.
+
+Auto HDR is based on **[Filippo Tarpini (Filoppi)](https://github.com/Filoppi)**'s [PumboAutoHDR](https://github.com/Filoppi/PumboAutoHDR) and the AutoHDR shader he wrote for the [Dolphin](https://github.com/dolphin-emu/dolphin) emulator.
