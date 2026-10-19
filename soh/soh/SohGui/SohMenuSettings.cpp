@@ -20,8 +20,8 @@ extern std::shared_ptr<SohMenu> mSohMenu;
 extern std::shared_ptr<SohModalWindow> mModalWindow;
 using namespace UIWidgets;
 
-// HDR upscaling: HDR output and Auto HDR exist only in the Metal renderer so far; 16-bit color works on Metal and
-// OpenGL.
+// HDR upscaling: HDR output and Auto HDR exist only in the Metal renderer so far; 16-bit color works on Metal,
+// OpenGL and DirectX 11.
 static bool HdrIsMetalRenderer() {
     return Ship::Context::GetRawInstance()->GetWindow()->GetWindowBackend() == Fast::WindowBackend::FAST3D_SDL_METAL;
 }
@@ -391,8 +391,6 @@ void SohMenu::AddMenuSettings() {
         .RaceDisable(false)
         .PreFunc([](WidgetInfo& info) {
             info.name = HdrIsMetalRenderer() ? "16-bit Color + HDR Output" : "16-bit Color";
-            info.isHidden = Ship::Context::GetRawInstance()->GetWindow()->GetWindowBackend() ==
-                            Fast::WindowBackend::FAST3D_DXGI_DX11;
         })
         .Options(CheckboxOptions().Tooltip(
             "Draws the game in 16-bit color instead of 8-bit, which smooths banding in dark scenes, fog and sky. "
