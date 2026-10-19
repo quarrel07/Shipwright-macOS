@@ -24,8 +24,7 @@ from upstream `9.3.1` — you still provide your own *Ocarina of Time* ROM.
 
 1. Grab `ShipOfHarkinian-v9.3.1-macOS-arm64.zip` from
    [Releases](https://github.com/quarrel07/Shipwright-macOS/releases) and unzip it.
-2. The app is **ad-hoc codesigned**, so on first launch right-click `Ship of Harkinian.app` → **Open**
-   (or run `xattr -dr com.apple.quarantine "Ship of Harkinian.app"`) to get past Gatekeeper.
+2. The app is ad-hoc signed, so macOS will warn that it can't verify it. Double-click the app, click **Done** on the warning, then open **System Settings → Privacy & Security**, scroll down to Security, and click **Open Anyway**. One-time thing per download.
 3. On first run the game asks for a supported **Ocarina of Time ROM** (`.z64`). Verify your dump
    against the [supported hashes](docs/supportedHashes.json). It extracts `oot.o2r` into
    `~/Library/Application Support/com.shipofharkinian.soh/` — this can take a minute — then boots
